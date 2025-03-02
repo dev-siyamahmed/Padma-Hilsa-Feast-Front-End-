@@ -1,0 +1,66 @@
+import React, { useState, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import useAuth from "../../Hooks/useAuth";
+
+export default function ProfileSection() {
+    const { user, logOut } = useAuth()
+    console.log("user", user);
+    const [isOpen, setIsOpen] = useState(false);
+    const menuRef = useRef(null);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
+    return (
+        <div className="relative" ref={menuRef}>
+            {/* Profile Image or Login Button */}
+            {user ? (
+                <img
+                    src={user?.photoURL || "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_640.png"}
+                    alt="Profile"
+                    className="w-10 h-10 rounded-full cursor-pointer"
+                    onClick={() => setIsOpen(!isOpen)}
+                />
+            ) : (
+                <Link to="/login" className="text-gray-800">
+                    <button className="md:px-4 px-2 lg:py-2 py-1 bg-blue-500 text-white rounded-md" >
+                        Login
+                    </button>
+                </Link>
+            )}
+
+            {/* Dropdown Menu */}
+            {isOpen && user && (
+                <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute right-0 mt-2 w-40 bg-white shadow-md rounded-md"
+                >
+                    <ul className="py-2 text-gray-800">
+                        <li className="px-4 py-2 font-semibold text-blue-600 bg-gray-100 rounded-md text-center">
+                            {user?.displayName}
+                        </li>
+                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Profile</li>
+                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Dashboard</li>
+                        <li
+                            className="px-4 py-2 hover:bg-red-500 hover:text-white cursor-pointer"
+                            onClick={logOut}
+                        >
+                            Logout
+                        </li>
+                    </ul>
+
+                </motion.div>
+            )}
+        </div>
+    );
+}
