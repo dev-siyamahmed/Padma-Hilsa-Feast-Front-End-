@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import { HeroSection } from './HeroSection';
 import RestaurantList from '../Restaurant/RestaurantList';
 import CategoryList from '../CategorySection/CategoryList';
+import Delivery from '../Delivery/Delivery';
 
 export default function Home() {
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <HeroSection />
 
@@ -15,6 +16,8 @@ export default function Home() {
 
       {/* Restaurant Cards */}
       <RestaurantList />
+
+      <Delivery />
     </div>
   );
 }

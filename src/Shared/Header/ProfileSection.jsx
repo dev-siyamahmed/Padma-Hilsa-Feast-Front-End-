@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
+import { AiOutlineHeart, AiOutlineBell, AiOutlineShoppingCart, AiOutlineUser } from "react-icons/ai";
 
 export default function ProfileSection() {
     const { user, logOut } = useAuth()
@@ -20,47 +21,61 @@ export default function ProfileSection() {
     }, []);
 
     return (
-        <div className="relative" ref={menuRef}>
+        <div className="relative flex items-center space-x-6" ref={menuRef}>
             {/* Profile Image or Login Button */}
-            {user ? (
-                <img
-                    src={user?.photoURL || "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_640.png"}
-                    alt="Profile"
-                    className="w-10 h-10 rounded-full cursor-pointer"
-                    onClick={() => setIsOpen(!isOpen)}
-                />
-            ) : (
-                <Link to="/login" className="text-gray-800">
-                    <button className="md:px-4 px-2 lg:py-2 py-1 bg-blue-500 text-white rounded-md" >
-                        Login
-                    </button>
+            <div className="flex items-center space-x-4 text-gray-600">
+                <Link to="/wishlist">
+                    <AiOutlineHeart className="w-6 h-6 cursor-pointer hover:text-blue-500 transition-colors" />
                 </Link>
-            )}
+                <Link to="/notifications">
+                    <AiOutlineBell className="w-6 h-6 cursor-pointer hover:text-blue-500 transition-colors" />
+                </Link>
+                <Link to="/cart">
+                    <AiOutlineShoppingCart className="w-6 h-6 cursor-pointer hover:text-blue-500 transition-colors" />
+                </Link>
+            </div>
+            <div className=" w-10 ">
+                {user ? (
+                    <img
+                        src={user?.photoURL || "https://cdn.pixabay.com/photo/2020/07/01/12/58/icon-5359553_640.png"}
+                        alt="Profile"
+                        className="w-10 h-10 rounded-full cursor-pointer"
+                        onClick={() => setIsOpen(!isOpen)}
+                    />
+                ) : (
+                    <Link to="/login" className="text-gray-800">
+                        <button className="" >
+                            Login
+                        </button>
+                    </Link>
+                )}
+                {/* Dropdown Menu */}
+                {isOpen && user && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="absolute right-0 mt-2 w-40 bg-white shadow-md rounded-md"
+                    >
+                        <ul className="py-2 text-gray-800">
+                            <li className="px-4 py-2 font-semibold text-blue-600 bg-gray-100 rounded-md text-center">
+                                {user?.displayName}
+                            </li>
+                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Profile</li>
+                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Dashboard</li>
+                            <li
+                                className="px-4 py-2 hover:bg-red-500 hover:text-white cursor-pointer"
+                                onClick={logOut}
+                            >
+                                Logout
+                            </li>
+                        </ul>
 
-            {/* Dropdown Menu */}
-            {isOpen && user && (
-                <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute right-0 mt-2 w-40 bg-white shadow-md rounded-md"
-                >
-                    <ul className="py-2 text-gray-800">
-                        <li className="px-4 py-2 font-semibold text-blue-600 bg-gray-100 rounded-md text-center">
-                            {user?.displayName}
-                        </li>
-                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Profile</li>
-                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Dashboard</li>
-                        <li
-                            className="px-4 py-2 hover:bg-red-500 hover:text-white cursor-pointer"
-                            onClick={logOut}
-                        >
-                            Logout
-                        </li>
-                    </ul>
+                    </motion.div>
+                )}
+            </div>
 
-                </motion.div>
-            )}
+
         </div>
     );
 }
