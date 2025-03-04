@@ -1,24 +1,26 @@
 import React from 'react';
-import { FaStar } from 'react-icons/fa';
+import delivery from "../../assets/svg/delivery.svg";
+import location from "../../assets/svg/location.svg";
+import mobile from "../../assets/svg/mobile.svg";
 
-const reviews = [
+const data = [
   {
     title: 'Super Fast Delivery',
-    description: 'Get your favorite meals delivered to your door in no time, with real-time tracking.',
+    description: 'Faster than your cravings can blink. Experience the super-fast delivery and get fresh food.',
     rating: 5,
-    image: 'https://i.ibb.co.com/pjpSjtZD/3696913-removebg-preview.png'
-  },
-  {
-    title: 'Your Favorite Restaurant',
-    description: 'Explore a wide variety of dishes from top-rated restaurants near you.',
-    rating: 4,
-    image: 'https://i.ibb.co.com/pjpSjtZD/3696913-removebg-preview.png'
+    image: delivery
   },
   {
     title: 'Live Order Tracking',
-    description: 'Track your order every step of the way with our real-time tracking system.',
+    description: 'Track your order while it is delivered to your doorstep from the restaurant.',
+    rating: 4,
+    image: location
+  },
+  {
+    title: 'Your Favorite Restaurant',
+    description: 'Find the best and nearest top your favorite restaurants from your selected location.    ',
     rating: 5,
-    image: 'https://i.ibb.co.com/pjpSjtZD/3696913-removebg-preview.png'
+    image: mobile
   }
 ];
 
@@ -32,11 +34,7 @@ const Card = ({ title, description, rating, image }) => (
     />
     <h3 className="text-xl font-bold text-blue-600 mb-2">{title}</h3>
     <p className="text-gray-600 mb-4">{description}</p>
-    <div className="flex items-center justify-center space-x-1 text-yellow-500 mb-2">
-      {Array.from({ length: rating }).map((_, i) => (
-        <FaStar key={i} />
-      ))}
-    </div>
+
   </div>
 );
 
@@ -52,7 +50,7 @@ export default function Delivery() {
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {reviews.map((review, index) => (
+        {data?.map((review, index) => (
           <Card
             key={index}
             title={review.title}

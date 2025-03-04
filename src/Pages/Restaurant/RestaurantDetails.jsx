@@ -11,7 +11,7 @@ export default function RestaurantDetails() {
     }
 
     return (
-        <div className="py-8">
+        <div className="py-8 px-3">
             <Link to="/" className="text-blue-500 hover:underline mb-4 inline-block">
                 ← Back to Restaurants
             </Link>

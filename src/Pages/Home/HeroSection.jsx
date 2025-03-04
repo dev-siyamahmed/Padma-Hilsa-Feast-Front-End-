@@ -1,46 +1,46 @@
+import heroImg from "../../assets/hero.webp";
+import { MdOutlineMyLocation } from "react-icons/md";
+
 export const HeroSection = () => {
   return (
-    <section className="">
-      <div className="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:grid-cols-12 items-center">
-        {/* Text Section */}
-        <div className="lg:col-span-7 mb-8 lg:mb-0">
-          <h1 className="text-rose-600 lg:text-5xl  md:text-3xl text-2xl font-extrabold text-center lg:text-left leading-tight mb-6">
-            <p className="mb-2">Fast, Fresh</p>
-           
-            & Right  <span className="text-gray-500"> To Your Door </span>
-            <br />
-
-          </h1>
-          <p className="text-gray-700 md:text-lg lg:text-lg text-sm font-medium text-center lg:text-left leading-relaxed mb-6">
-            Where Each Plate Weaves a Story of Culinary Mastery 
-          </p>
-
-          {/* Search Bar */}
-          <div className="w-full md:w-10/12 xl:w-8/12 mx-auto lg:mx-0">
-            <div className="flex rounded-md w-full">
-              <input
-                type="text"
-                name="q"
-                className="w-full p-3 rounded-md rounded-r-none border-2 border-gray-300 placeholder-current dark:bg-gray-500 dark:text-gray-300 dark:border-none"
-                placeholder="keyword"
-              />
-              <button className="inline-flex items-center gap-2 bg-red-500 text-white text-lg font-semibold py-3 px-6 rounded-r-md">
-                <span>Find</span>
-              </button>
-            </div>
+    <div className="grid md:grid-cols-1 lg:grid-cols-2  max-w-screen-2xl mx-auto px-3 mb-10 mt-6 ">
+      <div className="flex flex-col justify-center space-y-5">
+        {/* headings  */}
+        <h1 className=" text-4xl sm:text-5xl  md:text-6xl xl:text-7xl font-bold text-[#e10101] ">Fast, Fresh</h1>
+        <h1 className="text-3xl sm:text-5xl md:text-5xl xl:text-6xl 2xl:text-7xl font-bold">
+          <span className=" text-[#e10101] ">& Right</span>{" "}
+          <span className="text-[#616161] ">To Your Door</span>
+        </h1>
+        <h3 className=" text-xl sm:text-2xl text-[#616161]  ">
+          Order dishes from favorite restaurants near you.
+        </h3>
+        {/* search / find food  */}
+        <div className="flex items-center justify-center border-2 border-[#e10101] rounded-md relative">
+          <div className="w-full md:p-2 p-1 ">
+            {" "}
+            <input
+              className="w-full md:py-3  py-2 px-2 focus:outline-none"
+              type="text"
+              name="search"
+              id="search"
+              placeholder="Enter the location"
+            />{" "}
+          </div>
+          <div className="bg-[#e10101] w-40 h-full flex justify-center items-center">
+            {" "}
+            <button className="text-lg sm:text-2xl font-bold text-white">Find Food</button>
+          </div>
+          <div className="absolute right-28 sm:right-36 text-[#e10101] font-semibold ">
+            <button className=" hidden md:block  justify-center items-center gap-1">
+              <MdOutlineMyLocation />
+              {/* Locate me */}
+            </button>
           </div>
         </div>
-
-        {/* Image Section - Right Aligned */}
-        <div className="lg:col-span-5 flex justify-center lg:justify-end h-auto">
-          <img
-            className="h-[80vh] object-contain"
-            src="https://i.ibb.co/wZytfxwN/47517.jpg"
-            alt="mockup"
-          />
-        </div>
-
       </div>
-    </section>
+      <div className="flex justify-center items-center">
+        <img className="w-3/4" src={heroImg} alt="hero section image" />
+      </div>
+    </div>
   );
 };

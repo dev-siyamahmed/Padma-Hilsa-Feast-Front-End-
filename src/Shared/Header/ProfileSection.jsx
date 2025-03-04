@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
-import { AiOutlineHeart, AiOutlineBell, AiOutlineShoppingCart, AiOutlineUser } from "react-icons/ai";
+import IconsMenu from "../IconsMenu/IconsMenu";
 
 export default function ProfileSection() {
     const { user, logOut } = useAuth()
@@ -23,17 +23,7 @@ export default function ProfileSection() {
     return (
         <div className="relative flex items-center space-x-6" ref={menuRef}>
             {/* Profile Image or Login Button */}
-            <div className="flex items-center space-x-4 text-gray-600">
-                <Link to="/wishlist">
-                    <AiOutlineHeart className="w-6 h-6 cursor-pointer hover:text-blue-500 transition-colors" />
-                </Link>
-                <Link to="/notifications">
-                    <AiOutlineBell className="w-6 h-6 cursor-pointer hover:text-blue-500 transition-colors" />
-                </Link>
-                <Link to="/cart">
-                    <AiOutlineShoppingCart className="w-6 h-6 cursor-pointer hover:text-blue-500 transition-colors" />
-                </Link>
-            </div>
+            <IconsMenu />
             <div className=" w-10 ">
                 {user ? (
                     <img

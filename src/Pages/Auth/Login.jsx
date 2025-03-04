@@ -40,10 +40,10 @@ export default function Login() {
 
   return (
     <div>
-      <div className="font-poppins flex items-center justify-center min-h-screen bg-gray-100 ">
+      <div className="font-poppins flex items-center justify-center min-h-screen md:mt-6 ">
 
         {/* Form section */}
-        <div className=" w-full max-w-md bg-white rounded-lg shadow-md p-6  ">
+        <div className=" w-full max-w-md bg-white rounded-lg shadow-md md:p-6  p-3 ">
           <h2 className="text-2xl font-bold text-center text-gray-700 mb-6">
             Login to Your Account
           </h2>
@@ -93,10 +93,10 @@ export default function Login() {
 
 
 
-            <div className="flex flex-wrap items-center justify-between gap-4 mt-4">
+            <div className="flex flex-wrap items-center justify-between gap-3 mt-4">
               <div className="flex items-center">
                 <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 shrink-0 text-blue-600 border-gray-300 rounded-md" required />
-                <label htmlFor="remember-me" className="ml-3 block text-sm">
+                <label htmlFor="remember-me" className="ml-1 block text-sm">
                   Remember me
                 </label>
               </div>
