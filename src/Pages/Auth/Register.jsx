@@ -6,12 +6,13 @@ import useAuth from "../../Hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import SocialLogin from "./SocialLogin";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
 
 
 export default function Register() {
 
   const [showPassword, setShowPassword] = useState(false);
-
+  const axiosPublic = useAxiosPublic()
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
@@ -20,23 +21,27 @@ export default function Register() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     const email = data.email;
     const password = data.password;
     const name = data.userName;
 
-    createUser(email, password)
-      .then(res => {
-        handleUpdateProfile(name)
-          .then(() => {
-            toast.success('User created successfully');
-            navigate('/');
-          });
-      })
-      .catch(error => {
-        console.error(error);
-        toast.error('Please check your email or password');
-      });
+    // 
+    const newUser = { name, email, password, };
+
+    try {
+      const res = await createUser(email, password);
+      await handleUpdateProfile(name);
+
+      if (res) {
+          await axiosPublic.post("/auth/register", newUser);
+          toast.success("User created successfully! Please check your email to verify your account.");
+          navigate("/otp-verification");
+      }
+  } catch (error) {
+      console.error("Error during registration:", error);
+      toast.error("This email already exists or another error occurred.");
+  }
   };
 
   return (
@@ -114,7 +119,7 @@ export default function Register() {
           </div>
           <div className="mt-8">
             <button type="submit" className="w-full lg:w-[271px] mx-auto flex items-center justify-center py-3 px-6 text-sm tracking-wide rounded-md text-white bg-[#156BCA] hover:bg-blue-700 focus:outline-none">
-              Sign in
+              Sign up
             </button>
           </div>
         </form>

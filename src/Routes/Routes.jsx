@@ -6,7 +6,13 @@ import Register from "../Pages/Auth/Register";
 import Login from "../Pages/Auth/Login";
 import RestaurantDetails from "../Pages/Restaurant/RestaurantDetails";
 import CategoryDetails from "../Pages/CategorySection/CategoryDetails ";
-import Coffee from "../Pages/Food/Coffee";
+import Dashboard_Layout from "../MainLayout/Dashboard_Layout";
+import OtpVerification from "../Pages/Auth/OtpVerification";
+import CreateRestaurant from "../Components/Restaurants/CreateRestaurant";
+import RestaurantsList from "../Components/Restaurants/RestaurantsList";
+import Profile from "../Components/Profile/Profile";
+import Orders from "../Components/Order/Orders";
+import FoodList from "../Components/Food/FoodList";
 
 
 
@@ -32,14 +38,14 @@ const Routes = createBrowserRouter([
                 path: "/category/:categoryName",
                 element: <CategoryDetails />
             },
-            {
-                path: "/food/coffee",
-                element: <Coffee />
-            },
 
             {
                 path: "/register",
                 element: <Register />
+            },
+            {
+                path: "/otp-verification",
+                element: <OtpVerification />
             },
             {
                 path: "/login",
@@ -47,7 +53,18 @@ const Routes = createBrowserRouter([
             },
 
         ]
-    }
+    },
+    {
+        path: "/dashboard",
+        element: <Dashboard_Layout />,
+        children: [
+            { path: "/dashboard", element: <Profile/> },
+            { path: "/dashboard/order", element: <Orders/> },
+            { path: "/dashboard/food", element: <FoodList/> },
+            { path: "/dashboard/create/restaurant", element: <CreateRestaurant /> },
+            { path: "/dashboard/restaurant/list", element: <RestaurantsList /> },
+        ],
+    },
 ])
 
 export default Routes;

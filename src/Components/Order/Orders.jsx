@@ -1,12 +1,12 @@
 import React from 'react'
-import useCurrentUser from '../../Hooks/useCurrentUser'
+import useCurrentUser from '../../Hooks/useCurrentUser';
 
-export default function Coffee() {
+export default function Orders() {
   const {currentUser} = useCurrentUser()
   console.log(currentUser);
   return (
     <div>
-      Coffee
+      Orders
     </div>
   )
 }

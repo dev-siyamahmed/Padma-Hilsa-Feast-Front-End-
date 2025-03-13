@@ -52,7 +52,7 @@ export default function ProfileSection() {
                                 {user?.displayName}
                             </li>
                             <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Profile</li>
-                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Dashboard</li>
+                            <Link to={'/dashboard'}><li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Dashboard</li></Link>
                             <li
                                 className="px-4 py-2 hover:bg-red-500 hover:text-white cursor-pointer"
                                 onClick={logOut}

@@ -1,7 +1,11 @@
 import heroImg from "../../assets/hero.webp";
 import { MdOutlineMyLocation } from "react-icons/md";
 
-export const HeroSection = () => {
+export const HeroSection = ({ setSearchQuery }) => {
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value); // Update the search query in the parent component
+  };
   return (
     <div className="grid md:grid-cols-1 lg:grid-cols-2  max-w-screen-2xl mx-auto px-3 mb-10 mt-6 ">
       <div className="flex flex-col justify-center space-y-5">
@@ -24,6 +28,7 @@ export const HeroSection = () => {
               name="search"
               id="search"
               placeholder="Enter the location"
+              onChange={handleSearchChange}
             />{" "}
           </div>
           <div className="bg-[#e10101] w-40 h-full flex justify-center items-center">
