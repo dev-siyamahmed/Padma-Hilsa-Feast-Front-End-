@@ -1,7 +1,12 @@
+import useCurrentUser from "../../Hooks/useCurrentUser";
 import heroImg from "../../assets/hero.webp";
 import { MdOutlineMyLocation } from "react-icons/md";
 
 export const HeroSection = ({ setSearchQuery }) => {
+
+  const {currentUser} = useCurrentUser()
+  console.log("curren" , currentUser);
+
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value); // Update the search query in the parent component

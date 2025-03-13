@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import useAxiosPublic from '../../Hooks/useAxiosPublic';
+import useAuth from '../../Hooks/useAuth';
 
 export default function OtpVerification() {
   const [otp, setOtp] = useState('');
   const [email, setEmail] = useState('');
+  const { createUser, handleUpdateProfile } = useAuth();
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
+
+  const location = useLocation();
+
+  const { password, name } = location.state || {};
 
   const handleOtpChange = (e) => {
     const value = e.target.value;
@@ -23,28 +29,35 @@ export default function OtpVerification() {
 
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!email || !otp) {
       toast.error('Please enter both email and OTP.');
       return;
     }
     // Convert OTP to a number
-    const otpAsNumber = +otp; 
+    const otpAsNumber = +otp;
 
     try {
+      // Step 1: Backend-এ OTP যাচাই
       const response = await axiosPublic.post('/auth/verify-otp', { email, otp: otpAsNumber });
+
       if (response.data.success) {
-        toast.success('OTP verified successfully!');
-        navigate('/'); // Redirect to dashboard or desired page
+        // Step 2: Firebase-এ User Create
+        const res = await createUser(email, password);
+        console.log(res);
+        await handleUpdateProfile(name);
+
+        toast.success("OTP verified successfully! Please log in.");
+        navigate("/");
       } else {
-        toast.error('Invalid OTP or email, please try again.');
+        toast.error("Invalid OTP! Please try again.");
       }
     } catch (error) {
-      console.error('Error verifying OTP:', error);
-      toast.error('Failed to verify OTP. Please try again.');
+      console.error("OTP Verification Error:", error);
+      toast.error("OTP verification failed!");
     }
   };
-  
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -86,3 +99,4 @@ export default function OtpVerification() {
     </div>
   );
 }
+

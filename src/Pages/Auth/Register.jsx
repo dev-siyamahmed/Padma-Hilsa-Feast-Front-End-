@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { CiMail } from "react-icons/ci";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -12,10 +12,13 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 export default function Register() {
 
   const [showPassword, setShowPassword] = useState(false);
+  const location = useLocation();
   const axiosPublic = useAxiosPublic()
   const handleTogglePassword = () => {
     setShowPassword(!showPassword);
   };
+
+
 
   const { createUser, handleUpdateProfile } = useAuth();
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -28,20 +31,24 @@ export default function Register() {
 
     // 
     const newUser = { name, email, password, };
-
     try {
-      const res = await createUser(email, password);
-      await handleUpdateProfile(name);
+      // Step 1: Backend-এ user-এর তথ্য পাঠানো (Firebase-এ এখনো set হবে না)
+      const res = await axiosPublic.post("/auth/register", newUser);
 
-      if (res) {
-          await axiosPublic.post("/auth/register", newUser);
-          toast.success("User created successfully! Please check your email to verify your account.");
-          navigate("/otp-verification");
+      console.log(res);
+
+      if (res.data.success) {
+        toast.success("OTP has been sent! Please verify your email.");
+        // navigate("/otp-verification");
+        navigate("/otp-verification", { state: { email, password, name } });
+      } else {
+        toast.error("Registration failed! Please try again.");
       }
-  } catch (error) {
-      console.error("Error during registration:", error);
-      toast.error("This email already exists or another error occurred.");
-  }
+    } catch (error) {
+      console.error("Registration Error:", error);
+      toast.error("This email already exists or another issue occurred.");
+    }
+
   };
 
   return (
