@@ -51,7 +51,7 @@ export default function ProfileSection() {
                             <li className="px-4 py-2 font-semibold text-blue-600 bg-gray-100 rounded-md text-center">
                                 {user?.displayName}
                             </li>
-                            <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Profile</li>
+                            <Link to={'/dashboard'}><li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Profile</li></Link>
                             <Link to={'/dashboard'}><li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Dashboard</li></Link>
                             <li
                                 className="px-4 py-2 hover:bg-red-500 hover:text-white cursor-pointer"

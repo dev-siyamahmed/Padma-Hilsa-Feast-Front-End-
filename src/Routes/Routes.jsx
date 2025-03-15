@@ -11,8 +11,11 @@ import OtpVerification from "../Pages/Auth/OtpVerification";
 import CreateRestaurant from "../Components/Restaurants/CreateRestaurant";
 import RestaurantsList from "../Components/Restaurants/RestaurantsList";
 import Profile from "../Components/Profile/Profile";
-import Orders from "../Components/Order/Orders";
 import FoodList from "../Components/Food/FoodList";
+import CartList from "../Components/Cart/CartList";
+import OrderSuccess from "../Components/OrderSuccess/OrderSuccess";
+import UserOrders from "../Components/Order/UserOrders";
+import AdminOrders from "../Components/Order/AdminOrders";
 
 
 
@@ -29,6 +32,18 @@ const Routes = createBrowserRouter([
             {
                 path: "/about",
                 element: <About />
+            },
+            {
+                path: "/cart",
+                element: <CartList />
+            },
+            {
+                path: "/order-success",
+                element: <OrderSuccess />
+            },
+            {
+                path: "/cart",
+                element: <CartList />
             },
             {
                 path: "/restaurant/:id",
@@ -59,7 +74,8 @@ const Routes = createBrowserRouter([
         element: <Dashboard_Layout />,
         children: [
             { path: "/dashboard", element: <Profile/> },
-            { path: "/dashboard/order", element: <Orders/> },
+            { path: "/dashboard/admin/orders", element: <AdminOrders/> },
+            { path: "/dashboard/user/orders", element: <UserOrders/> },
             { path: "/dashboard/food", element: <FoodList/> },
             { path: "/dashboard/create/restaurant", element: <CreateRestaurant /> },
             { path: "/dashboard/restaurant/list", element: <RestaurantsList /> },

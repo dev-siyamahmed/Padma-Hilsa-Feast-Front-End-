@@ -8,9 +8,6 @@ const useCurrentUser = () => {
     const axiosPublic = useAxiosPublic();
     // const axiosSecure = useAxiosSecure()
     const { user } = useAuth();
-
-    console.log("user" , user);
-
     const { data: currentUser = {}, isLoading: userLoading, refetch } = useQuery({
         queryKey: ["currentUser", user?.email],
         queryFn: async () => {

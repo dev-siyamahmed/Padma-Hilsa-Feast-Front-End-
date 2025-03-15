@@ -12,16 +12,26 @@ import useAxiosPublic from "../../Hooks/useAxiosPublic";
 export default function Register() {
 
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const location = useLocation();
   const axiosPublic = useAxiosPublic()
-  const handleTogglePassword = () => {
-    setShowPassword(!showPassword);
-  };
 
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  // const handleTogglePassword = () => {
+  //   setShowPassword(!showPassword);
+  // };
+
+
+  const password = watch("password");
+  const confirmPassword = watch("confirmPassword");
+
+  // Toggle Password Visibility
+  const handleTogglePassword = () => setShowPassword(!showPassword);
+  const handleToggleConfirmPassword = () => setShowConfirmPassword(!showConfirmPassword)
 
 
   const { createUser, handleUpdateProfile } = useAuth();
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -91,7 +101,7 @@ export default function Register() {
           </div>
 
           {/* Password field */}
-          <div className="mt-4">
+          {/* <div className="mt-4">
             <label className="text-gray-800 text-[15px] mb-2 block font-medium">Password</label>
             <div className="relative flex items-center">
               <input
@@ -114,6 +124,46 @@ export default function Register() {
                 )}
               </button>
             </div>
+          </div> */}
+
+
+          <div className="mt-4">
+            <label className="text-gray-800 text-[15px] mb-2 block font-medium">Password</label>
+            <div className="relative flex items-center">
+              <input
+                {...register("password", {
+                  required: "Password is required",
+                  minLength: { value: 6, message: "Password must be at least 6 characters" },
+                })}
+                type={showPassword ? "text" : "password"}
+                className="w-full text-sm text-[#152A16] bg-gray-50 focus:bg-transparent px-4 py-3.5 rounded-md"
+                placeholder="Enter password"
+              />
+              <button type="button" className="absolute right-4 text-[#bbb]" onClick={handleTogglePassword}>
+                {showPassword ? <IoEyeOffOutline size={24} /> : <IoEyeOutline size={24} />}
+              </button>
+            </div>
+            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
+          </div>
+
+          {/* Confirm Password Field */}
+          <div className="mt-4">
+            <label className="text-gray-800 text-[15px] mb-2 block font-medium">Confirm Password</label>
+            <div className="relative flex items-center">
+              <input
+                {...register("confirmPassword", {
+                  required: "Confirm password is required",
+                  validate: (value) => value === password || "Passwords do not match",
+                })}
+                type={showConfirmPassword ? "text" : "password"}
+                className="w-full text-sm text-[#152A16] bg-gray-50 focus:bg-transparent px-4 py-3.5 rounded-md"
+                placeholder="Confirm password"
+              />
+              <button type="button" className="absolute right-4 text-[#bbb]" onClick={handleToggleConfirmPassword}>
+                {showConfirmPassword ? <IoEyeOffOutline size={24} /> : <IoEyeOutline size={24} />}
+              </button>
+            </div>
+            {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>}
           </div>
 
           <div className="flex flex-wrap items-center justify-between gap-4 mt-4">
@@ -124,8 +174,14 @@ export default function Register() {
               </label>
             </div>
           </div>
-          <div className="mt-8">
-            <button type="submit" className="w-full lg:w-[271px] mx-auto flex items-center justify-center py-3 px-6 text-sm tracking-wide rounded-md text-white bg-[#156BCA] hover:bg-blue-700 focus:outline-none">
+          <div className="mt-6">
+            <button
+              type="submit"
+              // disabled={password !== confirmPassword || !password}
+              className={`w-full flex items-center justify-center py-3 px-6 text-sm tracking-wide rounded-md text-white ${
+                password === confirmPassword && password ? "bg-[#156BCA] hover:bg-blue-700" : "bg-gray-400 cursor-not-allowed"
+              } focus:outline-none`}
+            >
               Sign up
             </button>
           </div>

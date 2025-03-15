@@ -5,8 +5,7 @@ import useRestaurantsList from "../../Hooks/useRestaurantsList";
 
 export default function RestaurantList({ searchQuery }) {
     const [restaurantsList] = useRestaurantsList();
-    console.log("restaurantsList", restaurantsList);
-
+    
     const filteredRestaurants = restaurantsList?.filter(restaurant => {
         const lowerCaseSearchQuery = searchQuery.toLowerCase();
         return (

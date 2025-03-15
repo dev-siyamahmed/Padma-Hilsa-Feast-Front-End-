@@ -20,7 +20,7 @@ export default function CategoryList() {
 
             {/* Category Buttons */}
             <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-                {categories.map((category, index) => (
+                {categories?.map((category, index) => (
                     <button
                         key={index}
                         className={`px-4 py-2 rounded-full font-semibold text-sm transition-colors duration-300 whitespace-nowrap 
@@ -37,10 +37,10 @@ export default function CategoryList() {
 
             {/* Food Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-6">
-                {filteredFoods?.slice(0, 8).map((food) => (
+                {filteredFoods?.slice(0, 8).map((food, id) => (
                     <Link
                         to={`/category/${encodeURIComponent(selectedCategory.toLowerCase())}`}
-                        key={food.id}
+                        key={food?.id}
                     >
                         <motion.div
                             className="p-4 border rounded-lg shadow-md bg-white hover:shadow-xl transition-shadow duration-300 cursor-pointer transform hover:scale-105"
@@ -48,16 +48,16 @@ export default function CategoryList() {
                         >
                             <div className="relative">
                                 <img
-                                    src={food.image}
+                                    src={food?.image}
                                     alt={food.name}
                                     className="rounded-lg w-full h-48 object-cover"
                                 />
                                 <div className="absolute top-2 right-2 bg-white rounded-full px-2 py-1 text-xs font-semibold text-yellow-600 shadow-sm">
-                                    ⭐ {food.rating}
+                                    ⭐ {food?.rating}
                                 </div>
                             </div>
                             <h3 className="text-lg font-semibold mt-3 text-gray-800 truncate">
-                                {food.name}
+                                {food?.name}
                             </h3>
                             <div className="flex items-center mt-1 text-yellow-500">
                                 <FaStar className="mr-1" />

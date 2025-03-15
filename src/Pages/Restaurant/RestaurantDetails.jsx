@@ -3,9 +3,12 @@ import { useParams, Link } from "react-router-dom";
 import useRestaurantsList from "../../Hooks/useRestaurantsList";
 import useCurrentUser from "../../Hooks/useCurrentUser"; // Custom hook for user data
 import axios from "axios";
+import useAxiosPublic from "../../Hooks/useAxiosPublic";
+import { toast } from "react-hot-toast";
 
 export default function RestaurantDetails() {
-    const { currentUser } = useCurrentUser(); // Get current user
+    const axiosPublic = useAxiosPublic();
+    const { currentUser } = useCurrentUser();
     const { id } = useParams();
     const [searchQuery, setSearchQuery] = useState(""); // State for food search query
     const [categoryFilter, setCategoryFilter] = useState(""); // State for category filter
@@ -27,6 +30,34 @@ export default function RestaurantDetails() {
         const isPriceInRange = food.price >= priceRange[0] && food.price <= priceRange[1];
         return isNameMatch && isCategoryMatch && isPriceInRange;
     });
+
+
+
+    const addToCart = async (foodId) => {
+        if (!currentUser?.data?.email) {
+            toast.error("You need to log in first!");
+            return;
+        }
+
+        try {
+            const response = await axiosPublic.post("/user/add-to-cart", {
+                foodId,
+                quantity: 1, // Default quantity 1
+                email: currentUser?.data?.email,
+            });
+
+            console.log(response);
+
+            if (response.data.success) {
+                toast.success("Item added to cart successfully!");
+            }
+        } catch (error) {
+            console.error("Error adding item to cart!", error);
+            toast.error("Failed to add item to cart, please try again.");
+        }
+    };
+
+
 
     if (!restaurant) {
         return <div className="text-center text-red-500">Restaurant not found!</div>;
@@ -92,24 +123,26 @@ export default function RestaurantDetails() {
                 {filteredFoods?.length > 0 ? (
                     filteredFoods?.map((food) => (
                         <div
-                            key={food._id}
+                            key={food?._id}
                             className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
                         >
                             <img
                                 className="w-full h-32 object-cover"
-                                src={food.imageUrl}
-                                alt={food.name}
+                                src={food?.imageUrl}
+                                alt={food?.name}
                             />
                             <div className="p-4">
-                                <h4 className="text-lg font-bold">{food.name}</h4>
-                                <p className="text-gray-600">${food?.price.toFixed(2)}</p>
-                                <div className="flex justify-between items-center">
-                                    <button> - </button>
-                                    <span> 0 </span>
-                                    <button> + </button>
-                                </div>
+                                <h2 className="text-lg font-bold">{food?.name}</h2>
+                                <h4 className="text-sm text-gray-600">
+                                    {food?.description?.length > 80
+                                        ? `${food?.description?.substring(0, 70)}...`
+                                        : food?.description}
+                                </h4>
+
+                                <p className="text-gray-600">BDT  {food?.price?.toFixed(2)}</p>
+
                                 <button
-                                    onClick={() => addToCart(food)}
+                                    onClick={() => addToCart(food?._id)}
                                     className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition"
                                 >
                                     Add to Cart

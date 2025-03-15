@@ -6,36 +6,33 @@ import { Link } from 'react-router-dom';
 import useAuth from '../../Hooks/useAuth';
 import IconsMenu from '../IconsMenu/IconsMenu';
 
-// Define navigation items dynamically
 const navItems = [
-    { name: 'Nav', link: '#' },
+    { name: 'Home', link: '/' },
     { name: 'Food', link: '/food/coffee' },
-    { name: 'Blog', link: '#' },
-    { name: 'Contact', link: '#' }
+    { name: 'Blog', link: '/blog' },
+    { name: 'Contact', link: '/contact' }
 ];
 
-// Reusable NavItem Component
-const NavItem = ({ link, name, onClick }) => (
-    <a
-        href={link}
+const NavItem = ({ link, name, onClick, className }) => (
+    <Link
+        to={link}
         onClick={onClick}
-        className="text-gray-700 hover:text-blue-600 transition-colors"
+        className={`text-gray-700 hover:text-blue-600 transition-colors ${className}`}
     >
         {name}
-    </a>
+    </Link>
 );
 
 export default function Header() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const { user, logOut } = useAuth()
-    console.log("user", user);
-    // Toggle sidebar visibility
+    const { user, logOut } = useAuth();
+
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
     return (
         <>
             <header className="flex items-center justify-between fixed left-0 right-0 md:px-4 lg:px-6 px-2 md:py-4 lg:py-4 py-2 bg-white text-gray-700 shadow-sm z-50">
-                {/* Logo - Left Aligned */}
+                {/* Logo */}
                 <Link to={"/"}>
                     <div className="flex justify-center items-center gap-2">
                         <img className="lg:w-12 w-10 rounded-full" src={logo} alt="logo" />
@@ -45,20 +42,20 @@ export default function Header() {
                     </div>
                 </Link>
 
-                {/* Navigation Items - Center Aligned for large screens */}
+                {/* Navigation - Only on large screens */}
                 <nav className="hidden lg:flex items-center space-x-6">
                     {navItems.map((item, index) => (
                         <NavItem key={index} link={item.link} name={item.name} />
                     ))}
                 </nav>
 
-                {/* Right Section: Profile and Menu */}
+                {/* Right Section */}
                 <div className="flex items-center space-x-4">
                     <div className="hidden lg:block">
                         <ProfileSection />
                     </div>
 
-                    {/* Menu Icon for Small Screens */}
+                    {/* Mobile Menu Icon */}
                     <div className="lg:hidden z-50">
                         <FaBars className="text-2xl cursor-pointer text-gray-700" onClick={toggleSidebar} />
                     </div>
@@ -75,20 +72,32 @@ export default function Header() {
             <div
                 className={`fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 transform transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
             >
-                {/* Close Button */}
+                {/* Sidebar Header */}
                 <div className="flex items-center justify-between px-4 py-3 border-b">
                     <span className="text-xl font-bold text-blue-600">Menu</span>
-                   <IconsMenu />
+                    <IconsMenu />
                     <FaTimes className="text-2xl cursor-pointer text-gray-600" onClick={toggleSidebar} />
                 </div>
 
-                {/* Sidebar Links (Dynamic) */}
+                {/* Sidebar Links */}
                 <nav className="flex flex-col space-y-4 px-4 py-6">
                     {navItems?.map((item, index) => (
                         <NavItem key={index} link={item.link} name={item.name} onClick={toggleSidebar} />
                     ))}
 
+                    {/* Dashboard Link (Only visible in Sidebar) */}
+                    {
+                        user ? <NavItem
+                            link="/dashboard"
+                            name="Dashboard"
+                            onClick={toggleSidebar}
+                            className=""
+                        /> : ""
+                    }
+
                 </nav>
+
+                {/* User Profile Section */}
                 <div className="mt-auto flex flex-col px-2 items-left pb-4 border-t pt-4">
                     {user ? (
                         <>
@@ -105,9 +114,11 @@ export default function Header() {
                             </button>
                         </>
                     ) : (
-                        <Link to="/login" className="">
-                            <button onClick={toggleSidebar}
-                                className="bg-blue-500 text-white py-1 px-6 rounded hover:bg-blue-600 transition" >
+                        <Link to="/login">
+                            <button
+                                onClick={toggleSidebar}
+                                className="bg-blue-500 text-white py-1 px-6 rounded hover:bg-blue-600 transition"
+                            >
                                 Login
                             </button>
                         </Link>
