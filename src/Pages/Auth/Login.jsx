@@ -122,7 +122,7 @@ export default function Login() {
           </div>
 
           <div className='flex items-center 2xl:gap-4 lg:gap-2 gap-2 px-1 '>
-            <SocialLogin />
+            {/* <SocialLogin /> */}
           </div>
 
           <div className="mt-1 px-0.5">

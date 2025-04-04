@@ -194,7 +194,7 @@ export default function Register() {
         </div>
 
         <div className='flex items-center 2xl:gap-4 lg:gap-2 gap-2 px-1 '>
-          <SocialLogin />
+          {/* <SocialLogin /> */}
         </div>
         <div className="mt-1">
           <p className="text-md mt-4 text-center text-gray-800">Don't have an account?

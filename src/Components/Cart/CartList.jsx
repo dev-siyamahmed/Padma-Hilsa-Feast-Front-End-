@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import useCartList from "../../Hooks/useCartList";
 import useAxiosPublic from "../../Hooks/useAxiosPublic";
@@ -8,6 +7,8 @@ import { loadStripe } from "@stripe/stripe-js";
 import CheckoutForm from "../CheckoutForm/CheckoutForm";
 
 const stripePromise = loadStripe(import.meta.env.VITE_Stripe_Payment_GateWay_PK);
+const DELIVERY_CHARGE = 30;
+const PLATFORM_FEE = 5;
 
 export default function CartList() {
     const [cartList, isLoading, refetch] = useCartList();
@@ -18,9 +19,8 @@ export default function CartList() {
 
     useEffect(() => {
         const total = cartList.reduce((sum, item) => sum + item.totalItemPrice, 0);
-        setTotalPrice(total);
+        setTotalPrice(total + DELIVERY_CHARGE + PLATFORM_FEE);
     }, [cartList]);
-
 
     const removeFromCart = async (foodId) => {
         if (!foodId || cartList.length === 0) return;
@@ -31,7 +31,7 @@ export default function CartList() {
 
             if (response.data.success) {
                 const updatedCart = cartList.filter((item) => item.foodId !== foodId);
-                setTotalPrice(updatedCart.reduce((sum, item) => sum + item.totalItemPrice, 0));
+                setTotalPrice(updatedCart.reduce((sum, item) => sum + item.totalItemPrice, 0) + DELIVERY_CHARGE + PLATFORM_FEE);
 
                 toast.success("Item removed from cart!");
                 refetch();
@@ -42,7 +42,6 @@ export default function CartList() {
         }
     };
 
-    
     const placeOrder = async () => {
         if (cartList.length === 0) {
             toast.error("Your cart is empty!");
@@ -102,6 +101,9 @@ export default function CartList() {
 
             {cartList?.length > 0 && (
                 <div className="text-right mt-6">
+                    <p className="text-lg">Subtotal: BDT {totalPrice - DELIVERY_CHARGE - PLATFORM_FEE}</p>
+                    <p className="text-lg">Delivery Charge: BDT {DELIVERY_CHARGE}</p>
+                    <p className="text-lg">Platform Fee: BDT {PLATFORM_FEE}</p>
                     <p className="text-xl font-bold">Total Price: BDT {totalPrice}</p>
                     <button
                         onClick={placeOrder}

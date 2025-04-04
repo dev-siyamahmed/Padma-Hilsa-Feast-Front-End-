@@ -99,16 +99,16 @@ export default function AdminOrders() {
                                     <td className="border p-3">
                                         <ul className="space-y-2">
                                             {order?.items?.map((item) => (
-                                                <li key={item._id} className="flex items-center space-x-4">
+                                                <li key={item?._id} className="flex items-center space-x-4">
                                                     <img
                                                         src={item?.foodId?.imageUrl}
-                                                        alt={item.foodId.name}
+                                                        alt={item?.foodId?.name}
                                                         className="w-12 h-12 object-cover rounded"
                                                     />
                                                     <div>
-                                                        <p className="font-semibold">{item.foodId.name}</p>
-                                                        <p className="text-gray-500">Qty: {item.quantity}</p>
-                                                        <p className="text-gray-500">Price: ${item.foodId.price}</p>
+                                                        <p className="font-semibold">{item?.foodId?.name}</p>
+                                                        <p className="text-gray-500">Qty: {item?.quantity}</p>
+                                                        <p className="text-gray-500">Price: ${item?.foodId?.price}</p>
                                                     </div>
                                                 </li>
                                             ))}

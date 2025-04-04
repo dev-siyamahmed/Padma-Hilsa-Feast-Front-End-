@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { HeroSection } from './HeroSection';
 import RestaurantList from '../Restaurant/RestaurantList';
-import CategoryList from '../CategorySection/CategoryList';
+// import CategoryList from '../CategorySection/CategoryList';
 import Delivery from '../Delivery/Delivery';
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
       {/* Restaurant Cards */}
       <RestaurantList searchQuery={searchQuery} />
       {/* Category Section */}
-      <CategoryList />
+      {/* <CategoryList /> */}
 
 
       <Delivery />
